@@ -28,7 +28,7 @@ public class MessageWorker{
     private final Channel channel;
 
     private volatile Object attachment;
-    private volatile Executor taskExec;//线�1�7�处理同丄1�7个用户的请求
+    private volatile Executor taskExec;
     
     public MessageWorker(Channel _channel){
         if (_channel == null){
