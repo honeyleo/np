@@ -36,6 +36,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import cn.huizhi.car.pb.player.ArenaReq_Protocol.ArenaReqPro;
 
@@ -82,19 +85,75 @@ import com.google.protobuf.ByteString;
 public class Test {
 
 	public static void main(String[] args) {
-		ArenaReqPro.Builder builder = ArenaReqPro.newBuilder();
-		InputStream is = Test.class.getClassLoader().getResourceAsStream("Desert.jpg");
-		
-		try {
-			builder.setType(1).setData(ByteString.readFrom(is));
-			ArenaReqPro arenaReqPro = builder.build();
-			byte[] data = arenaReqPro.getData().toByteArray();
-			FileOutputStream out = new FileOutputStream(new File("D:\\test2\\Desert.jpg"));
-			out.write(data);
-			out.close();
-			System.out.println();
-		} catch (IOException e) {
-			e.printStackTrace();
+//		ArenaReqPro.Builder builder = ArenaReqPro.newBuilder();
+//		InputStream is = Test.class.getClassLoader().getResourceAsStream("Desert.jpg");
+//		
+//		try {
+//			builder.setType(1).setData(ByteString.readFrom(is));
+//			ArenaReqPro arenaReqPro = builder.build();
+//			byte[] data = arenaReqPro.getData().toByteArray();
+//			FileOutputStream out = new FileOutputStream(new File("D:\\test2\\Desert.jpg"));
+//			out.write(data);
+//			out.close();
+//			System.out.println();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		Test test = new Test();
+		List<Integer> list = test.fun1(2, 1);
+		System.out.println(list);
+		int j = test.fun2(1234);
+		System.out.println(j);
+	}
+	
+	public List<Integer> fun1(int n, int k) {
+		byte[] d = new byte[n];
+		for(int i = 0; i < n; i ++) {
+			d[i] = 1;
+		}
+		int c = 2;
+		while(c <= k) {
+			for(int i = 0; i < n; i ++) {
+				int ii = i + 1;
+				int m = ii % c;
+				if(m == 0) {
+					d[i] = d[i] == 1 ? (byte)0 : (byte)1;
+				}
+			}
+			c ++;
+		}
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i = 0; i < n ; i ++) {
+			if(d[i] == 1) {
+				list.add(i + 1);
+			}
+		}
+		return list;
+	}
+	
+	public int fun2(int n) {
+		String s = String.valueOf(n);
+		char[] cc = s.toCharArray();
+		List<Character> list = new ArrayList<Character>();
+		for(char c : cc) {
+			list.add(c);
+		}
+		Collections.sort(list);
+		char[] g = new char[list.size()];
+		char[] d = new char[list.size()];
+		for(int i = 0; i < list.size(); i ++) {
+			g[i] = list.get(list.size() - i - 1);
+			if(!(i == 0 && list.get(i) == 0)) {
+				d[i] = list.get(i);
+			}
+		}
+		int j = Integer.parseInt(String.valueOf(g)) - Integer.parseInt(String.valueOf(d));
+		if(String.valueOf(j).equals(s)) {
+			return j;
+		} else {
+			return fun2(j);
 		}
 	}
+	
+	
 }
